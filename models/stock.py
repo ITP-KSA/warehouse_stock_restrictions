@@ -3,6 +3,7 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 
+
 class ResUsers(models.Model):
     _inherit = 'res.users'
 
@@ -18,6 +19,16 @@ class ResUsers(models.Model):
     default_picking_type_ids = fields.Many2many(
         'stock.picking.type', 'stock_picking_type_users_rel',
         'user_id', 'picking_type_id', string='Default Warehouse Operations')
+
+    @api.model
+    def create(self, vals):
+        self.clear_caches()
+        return super(ResUsers, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        self.clear_caches()
+        return super(ResUsers, self).write(vals)
 
 
 class stock_move(models.Model):
@@ -38,5 +49,3 @@ class stock_move(models.Model):
                 raise Warning(message % self.location_id.name)
             elif self.location_dest_id not in user_locations:
                 raise Warning(message % self.location_dest_id.name)
-
-

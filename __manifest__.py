@@ -34,11 +34,10 @@
     'category': 'Warehouse',
     'version': '0.2',
 
-    'depends': ['base', 'stock'],
+    'depends': ['stock'],
 
     'data': [
-
-        'users_view.xml',
         'security/security.xml',
+        'views/users_view.xml',
     ],
 }
